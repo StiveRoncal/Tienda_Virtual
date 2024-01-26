@@ -1,0 +1,82 @@
+<?php
+
+  require_once("Models/TCategoria.php");
+  require_once("Models/TProducto.php");
+  require_once("Models/TTipoPago.php");
+  require_once("Models/TCliente.php");
+  
+  class Carrito extends Controllers{
+
+    //Uso de Trait
+    use TCategoria, TProducto,TTipoPago,TCliente;
+
+    public function __construct(){
+
+        // Ejecucion de dos metodos por su herencia y constructor de libnrtaties controllers
+        parent::__construct();
+        session_start();
+    }
+
+    // 1er Metodo Principal
+
+      public function carrito(){
+        
+
+
+          $data['page_tag'] = NOMBRE_EMPRESA.'- Carrito';
+          $data['page_title'] =' Carrito de Compras';
+          $data['page_name'] = "carrito";
+        
+          $this->views->getView($this,"carrito",$data);
+
+          
+      }
+
+
+    // Metodo para Proceso de Pago
+
+    public function procesarpago(){
+        
+      if(empty($_SESSION['arrCarrito'])){
+
+        header("Location: ".base_url());
+        die();
+
+      }
+    
+      $data['page_tag'] = NOMBRE_EMPRESA.'- Procesar Pago';
+      $data['page_title'] ='Procesar Pago';
+      $data['page_name'] = "procesarpago";
+      $data['tiposPago'] = $this->getTiposPagoT();
+    
+      $this->views->getView($this,"procesarpago",$data);
+
+      
+  }
+
+
+  # MEtodo para detallar los producots
+
+  // public function setDetallateTemp(){
+
+  //   $sid = session_id();
+
+  //   $arrPedido = array('idcliente' => $_SESSION['idUser'],
+  //                       'idtransaccion' => $sid,
+  //                       'productos' => $_SESSION['arrCarrito']);
+
+  //   // dep($arrPedido);
+  //   $this->insertDetalleTemp($arrPedido);
+
+  // }
+
+  
+
+
+
+
+
+  
+
+  }
+?>
